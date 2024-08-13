@@ -8,13 +8,24 @@ const http = require('http')
 const hostname = '127.0.0.1'
 const port = 3000
 
+// Log with client-side
+// const server = http.createServer((req, res) => {
+//   fconsole.log('click +1')
+//   console.log('User click!')
+//   res.statusCode = 200
+//   res.setHeader('Content-Type', 'text/plain')
+//   res.setHeader('Access-Control-Allow-Origin', '*')
+//   res.end('Hello World')
+// })
+
+// Log with server-side,
+let count = 0
 const server = http.createServer((req, res) => {
-  fconsole.log('click +1')
-  console.log('User click!')
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'text/plain')
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.end('Hello World')
+  fs.readFile('./_snippets/carousel.html', (err, data) => {
+    fconsole.log(count)
+    count++
+    res.write(data), res.end()
+  })
 })
 
 server.listen(port, hostname, () => {
