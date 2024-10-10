@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server Sent Evnets Example</title>
+  </head>
+  <body>
+    <button onclick="handleclick()">Get SSE response</button>
+    <script>
+      function handleclick() {
+        // fetch('http://127.0.0.1:8000')
+
+        const eventSource = new EventSource('http://127.0.0.1:8000')
+        eventSource.onmessage = (event) => {
+          console.log(event)
+        }
+
+        // Alternative with addEventListener()
+        // eventSource.addEventListener('message', (event) => {
+        //   console.log('received', event.data)
+        //   if (event.data.includes(5)) {
+        //     console.log('OK')
+        //   }
+        // })
+      }
+    </script>
+  </body>
+</html>
