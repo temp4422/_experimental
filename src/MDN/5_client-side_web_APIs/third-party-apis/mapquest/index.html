@@ -17,7 +17,7 @@
     var L;
 
     window.onload = function () {
-      L.mapquest.key = 'YOUR-API-KEY-HERE';
+      L.mapquest.key = 'process.env.MAPQUEST_KEY';
 
       // 'map' refers to a <div> element with the ID map
       var map = L.mapquest.map('map', {
