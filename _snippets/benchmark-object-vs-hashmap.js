@@ -1,4 +1,5 @@
-// run with 'deno bench benchmark-test.js'
+// Compare js object vs js hashmap
+// From LeetCode: 1748. Sum of Unique Elements, Easy
 
 const sumOfUnique = function (nums) {
   const map = {}
