@@ -15,7 +15,7 @@ var mapWords = function (sentences: string[]): number {
   return Math.max(...sentences.map((item) => item.split(' ').length))
 }
 
-// Test array generation variants
+// Test array generation
 const testArr: string[] = Array.from({ length: 100_000 }, () => {
   return Array.from({ length: Math.floor(Math.random() * 20) + 1 }, () => {
     return Array.from({ length: Math.floor(Math.random() * 10) + 1 }, () => {
