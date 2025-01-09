@@ -42,7 +42,7 @@ Deno.bench({
 })
 
 /*
-08.07.2021, deno 2.1.4
+08.01.2025, deno 2.1.4
 
 IMPORTANT! If array contain 1_000_000 elements, got: "mapWords error: RangeError: Maximum call stack size exceeded"
 

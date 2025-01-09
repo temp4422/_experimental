@@ -191,3 +191,13 @@
 // for (const day in days) {
 //   console.log(days[day])
 // }
+
+// #Snippet
+// var statementsNoVars = function (rings) {
+//   const map = new Map()
+//   for (let i = 0; i < rings.length; i += 2) {
+//     map.set(rings[i + 1], [...(map.get(rings[i + 1]) ?? []), rings[i]])
+//   }
+//   return map
+// }
+// statementsNoVars('G0G2G7B7R1')
