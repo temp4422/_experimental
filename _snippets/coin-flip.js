@@ -6,17 +6,17 @@ function flipCoin(quantity) {
     return console.log(`Wrong input`)
   }
 
-  // Alternative with crypto module
-  function getRandomCrypto(length) {
-    let randomBuffer = crypto.getRandomValues(new Uint32Array(1))
-    return randomBuffer[0] % length
-  }
+  // // Alternative with crypto module
+  // function getRandomCrypto(length) {
+  //   let randomBuffer = crypto.getRandomValues(new Uint32Array(1))
+  //   return randomBuffer[0] % length
+  // }
 
   let heads = 0
   let tails = 0
   for (let i = 0; i < quantity; i++) {
-    if (Math.random() > 0.5 ? 1 : 0) heads++
     // if (getRandomCrypto(2)) heads++
+    if (Math.random() > 0.5 ? 1 : 0) heads++
     else tails++
   }
   let headsRatio = (heads / (heads + tails)) * 100
