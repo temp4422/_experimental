@@ -1,4 +1,4 @@
-const runs = 1000
+const runs = 100
 const flips = 1_000_000
 
 function flipCoin(quantity) {
@@ -12,25 +12,51 @@ function flipCoin(quantity) {
   //   return randomBuffer[0] % length
   // }
 
+  let streak = 0
+  let currentStreak = 0
+  let lastHead = false
+
   let heads = 0
   let tails = 0
+
   for (let i = 0; i < quantity; i++) {
     // if (getRandomCrypto(2)) heads++
-    if (Math.random() > 0.5 ? 1 : 0) heads++
-    else tails++
+    if (Math.random() > 0.5 ? 1 : 0) {
+      heads++
+
+      if (!lastHead) {
+        currentStreak = 0
+        lastHead = true
+      }
+
+      currentStreak++
+      streak = Math.max(streak, currentStreak)
+    } else {
+      tails++
+
+      if (lastHead) {
+        currentStreak = 0
+        lastHead = false
+      }
+
+      currentStreak++
+      streak = Math.max(streak, currentStreak)
+    }
   }
+
   let headsRatio = (heads / (heads + tails)) * 100
   let tailsRatio = (tails / (heads + tails)) * 100
-  let differ = Math.abs(headsRatio - tailsRatio)
+  let diff = Math.abs(headsRatio - tailsRatio)
 
   let output = `
   Ratio: ${headsRatio.toFixed(2)}:${tailsRatio.toFixed(2)}
-  Differ: ${differ.toFixed(2)}%
+  Differ: ${diff.toFixed(2)}%
   Heads: ${heads}
   Tails: ${tails}
+  Longest Streak: ${streak}
   `
   // console.log(output)
-  return differ
+  return [diff, streak]
 }
 // flipCoin(flips)
 
@@ -42,21 +68,39 @@ function runDiff(quantity) {
   let sumDiff = 0
   let maxDiff = 0
   let minDiff = Infinity
+
+  let sumStreak = 0
+  let maxStreak = 0
+  let minStreak = Infinity
+
   for (let i = 0; i < quantity; i++) {
-    let diff = flipCoin(flips)
+    let [diff, streak] = flipCoin(flips)
+
     sumDiff += diff
     maxDiff = Math.max(maxDiff, diff)
     minDiff = Math.min(minDiff, diff)
+
+    sumStreak += streak
+    maxStreak = Math.max(maxStreak, streak)
+    minStreak = Math.min(minStreak, streak)
   }
+
   let avgDiff = sumDiff / quantity
+  let avgStreak = sumStreak / quantity
 
   let output = `
   Runs: ${quantity}x
   Flips: ${flips}
+
   Difference:
   - max: ${maxDiff.toFixed(2)}%
   - avg:  ${avgDiff.toFixed(2)}%
   - min: ${minDiff.toFixed(2)}%
+
+  Streak:
+  - max: ${maxStreak}
+  - avg:  ${avgStreak.toFixed(2)}
+  - min: ${minStreak}
   `
   console.log(output)
 }
