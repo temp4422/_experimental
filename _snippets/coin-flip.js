@@ -1,7 +1,7 @@
 const runs = 100
 const flips = 1_000_000
 
-function flipCoin(quantity) {
+function flipCoin(quantity, print) {
   if (typeof quantity != 'number' || quantity < 1) {
     return console.log(`Wrong input`)
   }
@@ -55,10 +55,10 @@ function flipCoin(quantity) {
   Tails: ${tails}
   Longest Streak: ${streak}
   `
-  // console.log(output)
+  if (print) console.log(output)
   return [diff, streak]
 }
-// flipCoin(flips)
+flipCoin(flips, true)
 
 function runDiff(quantity) {
   if (typeof quantity != 'number' || quantity < 1) {
@@ -74,7 +74,7 @@ function runDiff(quantity) {
   let minStreak = Infinity
 
   for (let i = 0; i < quantity; i++) {
-    let [diff, streak] = flipCoin(flips)
+    let [diff, streak] = flipCoin(flips, false)
 
     sumDiff += diff
     maxDiff = Math.max(maxDiff, diff)
