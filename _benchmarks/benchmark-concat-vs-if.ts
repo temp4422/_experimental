@@ -44,6 +44,8 @@ Deno.bench({
   },
 })
 
+export {} // Prevent error: Cannot redeclare block-scoped variable 'testArr1'.
+
 /*
 14.02.2025
 
