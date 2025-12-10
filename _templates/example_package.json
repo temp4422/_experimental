@@ -14,7 +14,7 @@
     "npm": "^11",
     "node": "^22"
   },
-  "packageManager": "npm@11.0.0",
+  "packageManager": "npm@11.7.0",
   "scripts": {
     "dev": "browser-sync start --server 'dist/' --files 'src/' --port 3000 --no-open --no-notify & node watch.js",
     "prebuild": "npm run lint && npm run format",
@@ -28,20 +28,20 @@
     "lighthouse": "cd ./lighthouse/ && lighthouse http://localhost:3000 --quiet --chrome-flags='--headless'"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.2.4"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "next": "16.0.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4.0.0",
-    "@types/node": "^20",
+    "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.1.7",
+    "eslint-config-next": "16.0.8",
     "postcss": "^8",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.1.17",
     "typescript": "^5"
   },
   "homepage": "https://github.com/temp4422/my-app#readme",
