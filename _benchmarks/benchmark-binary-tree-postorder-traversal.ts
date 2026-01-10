@@ -1,7 +1,7 @@
 // Compare performance of binary tree postorder traversal implementations
 // From LeetCode 145. Binary Tree Postorder Traversal, Easy
 
-var postorderTraversalMixedType = function (root) {
+const postorderTraversalMixedType = function (root) {
   // Uses a heterogeneous stack (nodes + values) to simulate postorder traversal
   // https://leetcode.com/problems/binary-tree-postorder-traversal/solutions/1038517/javascript-2-solutions-stack-recursive-e-h6rj/comments/2590766/?parent=1613820
 
@@ -22,7 +22,7 @@ var postorderTraversalMixedType = function (root) {
   return postorderStack
 }
 
-var postorderTraversalUnshift = function (root) {
+const postorderTraversalUnshift = function (root) {
   if (!root) return []
 
   const stack = [root]
@@ -40,7 +40,7 @@ var postorderTraversalUnshift = function (root) {
   return postorderStack
 }
 
-var postorderTraversalReverse = function (root) {
+const postorderTraversalReverse = function (root) {
   if (!root) return []
 
   const stack = [root]
@@ -58,7 +58,7 @@ var postorderTraversalReverse = function (root) {
   return postorderStack
 }
 
-var postorderTraversalTwoPass = function (root) {
+const postorderTraversalTwoPass = function (root) {
   // Time Limit Exceeded
   if (!root) return []
 
