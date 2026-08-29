@@ -30,8 +30,8 @@ const OLLAMA_URL = 'http://localhost:11434/api/chat'
  *
  * Change only this list to test different models.
  */
-const MODELS = ['llama3.1:8b', 'qwen3.5:9b', 'qwen3.5:9b-mlx', 'qwen3.5:9b-mlx-MYCUSTOM-quick']
-const RUNS_PER_PROMPT = 1
+const MODELS = ['qwen3.5:9b-mlx', 'gemma4:e4b-mlx', 'llama3.1:8b']
+const RUNS_PER_PROMPT = 3
 const KEEP_ALIVE = '10m'
 const OPTIONS = {
   temperature: 0,
@@ -265,6 +265,31 @@ function exactOrContains(answer, values) {
 }
 
 /**
+ * Parse a model spec such as:
+ *   qwen3.5:9b-mlx-MYCUSTOM-quick --think=false
+ */
+function parseModelSpec(spec) {
+  const raw = String(spec).trim()
+  const tokens = raw.split(/\s+/)
+  const model = tokens[0]
+  const flags = {}
+
+  for (let i = 1; i < tokens.length; i++) {
+    const token = tokens[i]
+
+    if (!token.startsWith('--')) continue
+
+    const [keyPart, valuePart = 'true'] = token.slice(2).split('=')
+    const key = keyPart.trim()
+    const value = valuePart === 'true' ? true : valuePart === 'false' ? false : valuePart
+
+    flags[key] = value
+  }
+
+  return { model, flags }
+}
+
+/**
  * Sleep.
  */
 function sleep(ms) {
@@ -312,6 +337,8 @@ function formatQuality(value) {
  */
 async function runModel(model, prompt) {
   const startedAt = performance.now()
+  const { model: modelName, flags } = parseModelSpec(model)
+  const thinkValue = flags.think ?? OPTIONS.think
 
   const response = await fetch(OLLAMA_URL, {
     method: 'POST',
@@ -319,7 +346,7 @@ async function runModel(model, prompt) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model,
+      model: modelName,
 
       messages: [
         {
@@ -330,7 +357,7 @@ async function runModel(model, prompt) {
 
       stream: true,
 
-      think: OPTIONS.think,
+      think: thinkValue,
 
       keep_alive: KEEP_ALIVE,
 
@@ -564,7 +591,16 @@ function createMarkdown(allResults) {
   for (const model of models) {
     const categories = [...new Set(allResults[model].map((result) => result.category))]
 
-    for (const category of categories) {
+    // Sort categories by total latency (fastest to slowest)
+    const sortedCategories = categories.sort((a, b) => {
+      const resultsA = allResults[model].filter((result) => result.category === a)
+      const resultsB = allResults[model].filter((result) => result.category === b)
+      const latencyA = median(resultsA.map((result) => result.totalLatencyMedian))
+      const latencyB = median(resultsB.map((result) => result.totalLatencyMedian))
+      return latencyA - latencyB
+    })
+
+    for (const category of sortedCategories) {
       const results = allResults[model].filter((result) => result.category === category)
 
       lines.push(
@@ -669,7 +705,16 @@ function createMarkdown(allResults) {
  */
 function generateBenchmarkFilename(models) {
   const date = new Date().toISOString().split('T')[0]
-  const modelNames = models.map((model) => model.replace(/[:/]/g, '-')).join('-')
+  const modelNames = models
+    .map((model) =>
+      String(model)
+        .trim()
+        .replace(/[:/]/g, '-')
+        .replace(/\s+/g, '-')
+        .replace(/--+/g, '-')
+        .replace(/[^a-zA-Z0-9._-]/g, '-'),
+    )
+    .join('-')
   return `benchmark-${modelNames}-${date}.md`
 }
 
