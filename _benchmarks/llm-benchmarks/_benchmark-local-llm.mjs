@@ -30,8 +30,8 @@ const OLLAMA_URL = 'http://localhost:11434/api/chat'
  *
  * Change only this list to test different models.
  */
-const MODELS = ['qwen3.5:9b-mlx-MYCUSTOM-quick --think=false', 'qwen3.5:9b-mlx', 'qwen3.5:9b', 'llama3.1:8b']
-const RUNS_PER_PROMPT = 1
+const MODELS = ['qwen3.5:9b-mlx-MYCUSTOM-quick', 'qwen3.5:9b-mlx', 'qwen3.5:4b-mlx', 'llama3.1:8b', 'granite4.2:8b', 'ornith-1.5:9b', 'phi4:14b']
+const RUNS_PER_PROMPT = 3
 const KEEP_ALIVE = '10m'
 const OPTIONS = {
   temperature: 0,
